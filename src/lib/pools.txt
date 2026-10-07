@@ -1,0 +1,384 @@
+dig, -delve
+digs, -delves
+digging, -delving
+mix, blend, -tapestry
+proof, -testament
+key, central, -pivotal
+important, -crucial
+strong, sturdy, -robust
+smooth, -seamless
+use, -leverage, -utilize
+help, support, -foster
+show, display, -showcase
+stress, -underscore
+careful, thorough, -meticulous
+field, area, -realm
+varied, diverse, -multifaceted
+also, -moreover, -furthermore, -additionally
+start, begin, -commence
+starts, begins, -commences
+starting, beginning, -commencing
+started, began, -commenced
+go, -embark
+goes, -embarks
+going, -embarking
+went, -embarked
+many, -myriad
+plenty, -plethora
+among, -amidst, -amongst
+while, -whilst
+though, -albeit
+later, -subsequently
+so, -hence
+still, -nevertheless, -nonetheless
+explain, -elucidate
+explains, -elucidates
+explained, -elucidated
+explaining, -elucidating
+cover, -encompass
+covers, -encompasses
+covered, -encompassed
+covering, -encompassing
+ease, -facilitate
+eases, -facilitates
+eased, -facilitated
+easing, -facilitating
+try, attempt, -endeavor
+tries, attempts, -endeavors
+tried, attempted, -endeavored
+trying, attempting, -endeavoring
+raise, lift, -elevate
+raises, lifts, -elevates
+raised, lifted, -elevated
+raising, lifting, -elevating
+spur, -catalyze
+spurs, -catalyzes
+spurred, -catalyzed
+spurring, -catalyzing
+guide, -spearhead
+guides, -spearheads
+guided, -spearheaded
+guiding, -spearheading
+free, -unleash
+frees, -unleashes
+freed, -unleashed
+freeing, -unleashing
+whole, full, -holistic
+new, -unprecedented
+novel, -groundbreaking
+matchless, -unparalleled
+famous, -renowned
+alter, -transform
+alters, -transforms
+altered, -transformed
+altering, -transforming
+scene, -landscape
+vital, -paramount
+urgent, -imperative
+lively, -vibrant
+tucked, -nestled
+tap, -harness
+taps, -harnesses
+tapped, -harnessed
+tapping, -harnessing
+enable, -empower
+enables, -empowers
+enabled, -empowered
+enabling, -empowering
+simplify, -streamline
+simplifies, -streamlines
+simplified, -streamlined
+simplifying, -streamlining
+teamwork, -synergy
+model, -paradigm
+network, -ecosystem
+steer, -navigate
+steers, -navigates
+steered, -navigated
+steering, -navigating
+path, -journey
+signal, -beacon
+base, -cornerstone
+trait, -hallmark
+detailed, -intricate
+striking, -stunning
+echo, -resonate
+echoes, -resonates
+echoed, -resonated
+echoing, -resonating
+prop, -bolster
+props, -bolsters
+propped, -bolstered
+propping, -bolstering
+brace, -underpin
+braces, -underpins
+braced, -underpinned
+bracing, -underpinning
+really, -indeed
+especially, -notably
+greatly, -significantly, -substantially
+here, -herein
+of that, -thereof
+by which, -whereby
+in which, -wherein
+until now, -heretofore
+from now, -henceforth
+big, large
+bigger, larger
+biggest, largest
+small, little
+smaller, tinier
+smallest, tiniest
+happy, glad
+sad, unhappy
+angry, mad
+scared, afraid
+tired, weary
+smart, clever
+stupid, dumb
+pretty, lovely
+quiet, silent
+loud, noisy
+hard, difficult
+harder, more difficult
+hardest, most difficult
+easy, simple
+easier, simpler
+easiest, simplest
+young, youthful
+rich, wealthy
+poor, needy
+cold, chilly
+warm, toasty
+dark, dim
+clean, tidy
+dirty, messy
+empty, vacant
+filled, packed
+quick, rapid
+slow, sluggish
+late, overdue
+false, untrue
+wrong, incorrect
+nice, pleasant
+weird, odd
+normal, usual
+common, typical
+rare, uncommon
+clear, obvious
+vague, unclear
+sure, certain
+likely, probable
+needed, required
+ready, prepared
+wide, broad
+wider, broader
+widest, broadest
+narrow, slim
+long, lengthy
+longer, lengthier
+longest, lengthiest
+short, brief
+shorter, briefer
+shortest, briefest
+high, tall
+higher, taller
+highest, tallest
+thick, dense
+thin, skinny
+heavy, hefty
+sharp, pointed
+dull, blunt
+wet, damp
+safe, secure
+risky, unsafe
+calm, peaceful
+brave, daring
+shy, timid
+humble, modest
+honest, frank
+secret, hidden
+private, personal
+local, nearby
+far, distant
+inner, internal
+outer, external
+main, chief
+extra, spare
+total, entire
+partial, incomplete
+final, last
+first, initial
+next, following
+prior, previous
+same, identical
+different, distinct
+similar, alike
+general, overall
+specific, particular
+complex, complicated
+modern, current
+ancient, antique
+daily, everyday
+annual, yearly
+sudden, abrupt
+constant, steady
+random, arbitrary
+legal, lawful
+illegal, unlawful
+moral, ethical
+useful, handy
+useless, pointless
+harmful, damaging
+sick, ill
+dead, deceased
+alive, living
+asleep, sleeping
+lucky, fortunate
+unlucky, unfortunate
+unknown, obscure
+cheap, inexpensive
+costly, expensive
+ask, request
+asks, requests
+asked, requested
+asking, requesting
+buy, purchase
+buys, purchases
+bought, purchased
+buying, purchasing
+get, obtain
+gets, obtains
+got, obtained
+getting, obtaining
+make, create
+makes, creates
+made, created
+making, creating
+want, crave
+wants, craves
+wanted, craved
+wanting, craving
+see, notice
+sees, notices
+saw, noticed
+seeing, noticing
+say, state
+says, states
+said, stated
+saying, stating
+talk, speak
+talks, speaks
+talked, spoke
+talking, speaking
+give, offer
+gives, offers
+gave, offered
+giving, offering
+keep, retain
+keeps, retains
+kept, retained
+keeping, retaining
+stop, halt
+stops, halts
+stopped, halted
+stopping, halting
+grow, expand
+grows, expands
+grew, expanded
+growing, expanding
+fall, drop
+falls, drops
+fell, dropped
+falling, dropping
+fix, repair
+fixes, repairs
+fixed, repaired
+fixing, repairing
+write, draft
+writes, drafts
+wrote, drafted
+writing, drafting
+teach, instruct
+teaches, instructs
+taught, instructed
+teaching, instructing
+love, adore
+loves, adores
+loved, adored
+hate, loathe
+hates, loathes
+hated, loathed
+like, enjoy
+likes, enjoys
+liked, enjoyed
+person, human
+people, folks
+child, kid
+children, kids
+man, guy
+woman, lady
+friend, pal
+job, post
+money, cash
+place, spot
+thing, item
+part, piece
+end, finish
+way, method
+idea, notion
+problem, issue
+question, query
+answer, reply
+story, tale
+word, term
+group, bunch
+country, nation
+fact, detail
+law, rule
+team, squad
+company, firm
+customer, client
+result, outcome
+reason, cause
+effect, impact
+goal, aim
+plan, scheme
+choice, option
+step, stage
+type, sort
+value, worth
+cost, price
+view, opinion
+family, household
+image, picture
+photo, snapshot
+color, hue
+size, scale
+speed, pace
+fear, dread
+joy, delight
+pain, ache
+anger, rage
+due to, because of
+prior to, before
+as well, too
+instead of, rather than
+out of, from
+for example, for instance
+at least, no less than
+in spite of, despite
+because, since
+but, yet
+maybe, perhaps
+very, extremely
+almost, nearly
+often, frequently
+seldom, rarely
+now, currently
+soon, shortly
+again, once more
+together, jointly
+away, off
+inside, indoors
+outside, outdoors

@@ -33,10 +33,10 @@
 		"d": 0,
 		"c": {
 			"github_repo": {
-				"s": "a private GitHub repo 144126/tint holds main.\n1. gh repo create 144126/tint --private --source . --remote origin --push\n2. from here on, push after every commit.",
-				"d": 0,
-				"v": "git rev-parse HEAD >/dev/null && test -z \"$(git remote)\"",
-				"t": "gh repo view 144126/tint --json visibility -q .visibility | grep -q PRIVATE && test \"$(git rev-parse HEAD)\" = \"$(git ls-remote origin refs/heads/main | cut -f1)\""
+				"s": "a public GitHub repo 144126/tint holds main.\n1. origin already points at 144126/tint. if the repo is private: gh repo edit 144126/tint --visibility public --accept-visibility-change-consequences.\n2. git push -u origin main.\n3. from here on, push after every commit.",
+				"d": 1,
+				"v": "git remote get-url origin | grep -q 144126/tint",
+				"t": "gh repo view 144126/tint --json visibility -q .visibility | grep -q PUBLIC && test \"$(git rev-parse HEAD)\" = \"$(git ls-remote origin refs/heads/main | cut -f1)\""
 			},
 			"worker_builds": {
 				"s": "a Cloudflare Worker named tint exists and Workers Builds watches main. the ids below are copied from the working ed worker.\n1. create the worker: curl -s -X POST -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H 'Content-Type: application/json' https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers -d '{\"name\":\"tint\",\"subdomain\":{\"enabled\":true}}'. its result.id is the script tag.\n2. connect builds: cf builds workers create --script-tag <tag> --git-repository-provider-type github --git-repository-provider-account-id 60928392 --git-repository-provider-account-name 144126 --git-repository-repo-id $(gh api repos/144126/tint -q .id) --git-repository-repo-name tint --git-repository-branch main --production-settings-build-command 'pnpm run build' --production-settings-deploy-command 'pnpm exec wrangler deploy' --production-settings-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414 --previews-enabled false --previews-base-config-build-command '' --previews-base-config-deploy-command 'pnpm exec wrangler versions upload' --previews-base-config-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414\n3. plan tint --note 'worker tag <tag>'",

@@ -7,7 +7,7 @@
 	},
 	"core": {
 		"s": "the swap engine: the pool data, then the function that reads it",
-		"d": 0,
+		"d": 1,
 		"c": {
 			"pools_file": {
 				"s": "src/lib/pools.txt holds every synonym pool. format, exact:\n1. one pool per line, entries joined by \", \". entries are lowercase letters and single spaces only, phrases up to 4 words. no blank lines, no comments.\n2. an entry starting with - is swap-out-only: it gets replaced and is never inserted. the unmarked entries of a line must fit wherever any other one of them fits: same part of speech, same inflection (big/large and bigger/larger are separate lines), same strength. a line may hold a single unmarked entry plus marked ones, e.g. dig, -delve.\n3. each entry appears once in the whole file.\n4. at least 250 lines, at least 40 of them with marked ai-tell entries. these marked entries are required: delve, delves, delving, tapestry, testament, pivotal, crucial, robust, seamless, leverage, utilize, foster, showcase, underscore, meticulous, realm, multifaceted, moreover, furthermore, additionally.\n5. skip words whose sense flips with context (fast, light, right, kind, well, mean, fine, bank, lead, close, present), hyphenated words, contractions, and a/an.",
@@ -16,7 +16,7 @@
 			},
 			"swap_module": {
 				"s": "src/lib/swap.ts exports swap(text: string): string; src/lib/swap.spec.ts tests it.\n1. import pools from './pools.txt?raw'. at module load, build one Map from every entry (leading - stripped) to the unmarked entries of its line.\n2. match with one RegExp, flags gi, all entries sorted longest first, this source exactly: (?<![\\w'’-])(?:(an?)(\\s+))?(ENTRIES)(?![\\w'’-]) where ENTRIES is the entries joined by |. entries hold only a-z and spaces, so no escaping. the lookarounds leave hyphenated words and possessives alone; the optional group catches a/an.\n3. per match: candidates are the entry's unmarked entries minus the entry itself. none → return the match unchanged. else pick one with Math.random.\n4. case: an all-caps source longer than one letter → upper; a capitalized source → capitalize the pick; else as stored.\n5. when a/an was caught, write an before a pick starting with a vowel letter, else a; keep the article's case and the original whitespace.\n6. tests, on real entries from pools.txt: a pool word becomes another member of its pool; marked entries never appear in output over 200 runs; text with no pool words comes back identical; Capitalized and CAPS sources keep their case; a/an follows the pick; a pool word inside a hyphenated compound is untouched.",
-				"d": 0,
+				"d": 1,
 				"v": "test -f src/lib/pools.txt",
 				"t": "test -f src/lib/swap.spec.ts && grep -q 'pools.txt?raw' src/lib/swap.ts && pnpm test && pnpm check && pnpm lint"
 			}

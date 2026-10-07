@@ -1,0 +1,1 @@
+- 2026-10-07 #lib/swap needs #lib/swap.js for svelte-check

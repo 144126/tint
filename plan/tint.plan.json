@@ -24,7 +24,7 @@
 	},
 	"page": {
 		"s": "src/routes/+page.svelte becomes the whole app; the scaffold welcome text goes.\n1. a full-height textarea bound to one $state string: centered column max-w-2xl, no border, no focus ring, text-lg, placeholder 'paste text', aria-label 'text'.\n2. one button, label 'swap', fixed bottom-right, black pill with white text, disabled while the text is empty. its onclick sets the text to swap(text) from #lib/swap, in place, so every press re-rolls.\n3. <svelte:head><title>tint</title></svelte:head>.\n4. leave src/routes/+layout.svelte and the favicon alone. no copy button, no counter, no dark mode, no second textarea.\n5. look at it: pnpm dev (only if no dev server is running), open it with ab-1440fl, paste a paragraph with pool words, press swap, confirm the words change, and check it at 390px wide.",
-		"d": 0,
+		"d": 1,
 		"v": "grep -qE 'export (const|function) swap' src/lib/swap.ts",
 		"t": "! grep -q 'Welcome to SvelteKit' src/routes/+page.svelte && grep -q '<title>tint</title>' src/routes/+page.svelte && grep -q '#lib/swap' src/routes/+page.svelte && pnpm check && pnpm lint && pnpm test && pnpm build && grep -rq 'paste text' .svelte-kit/output/client"
 	},

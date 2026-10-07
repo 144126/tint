@@ -1,0 +1,55 @@
+{
+	"_": "tint (~/i/tint): one-page webapp. paste text into a textarea, press swap, and every word found in a synonym pool is replaced in place by a random other word from its pool, so each press re-rolls. purpose: humanize ai text without changing its meaning.\nstack: SvelteKit 3, Svelte 5 runes, Tailwind v4, vitest; a Cloudflare Worker named tint via @sveltejs/adapter-cloudflare and wrangler.jsonc, live at https://tint.apexlinks.workers.dev once the ship steps run. SvelteKit 3 traps: config lives in vite.config.ts (there is no svelte.config.js); the lib alias is #lib, never $lib; tsconfig extends $app/tsconfig.\nrules: pnpm only, never npm or npx. snake_case vars and functions. no comments except a non-obvious why. no single-use vars. build the smallest thing that passes; add nothing the step does not ask for. all ui text lowercase. tailwind utilities only: no style= and no <style>.\nchecks: pnpm check; pnpm lint (run pnpm format first); pnpm test (vitest run; it fails when no test file exists, so it gates only from swap_module on); pnpm build (vite build).\ngit: commit after each mark, conventional commits, scope = step id. once origin exists (github_repo), push after every commit; a push to main is the only deploy. never wrangler deploy. never commit .env.",
+	"scaffold_cleanup": {
+		"s": "the sv create scaffold becomes a clean repo named tint.\n1. name tint, not para, in package.json and wrangler.jsonc.\n2. package.json scripts: build = vite build (Workers Builds fails wrangler types --check inside a build); test = vitest run; drop test:unit and test:e2e.\n3. remove playwright: playwright.config.ts, src/routes/page.svelte.e2e.ts, the @playwright/test dev dependency (pnpm remove), and its tsconfig include entry.\n4. delete src/lib/vitest-examples/.\n5. pnpm-workspace.yaml: add packages: ['.'] above allowBuilds.\n6. run pnpm gen and commit worker-configuration.d.ts; list it, /plan/ and /wip-plans/ in .prettierignore.\n7. tsconfig compilerOptions checkJs: false. worker-configuration.d.ts imports .svelte-kit/cloudflare/_worker, so after any build svelte-check type-checks the server bundle and reports about 450 errors.\n8. README.md: three lowercase lines: what tint does; pools live in src/lib/pools.txt, one pool per line, comma-separated, a leading - marks swap-out-only; pnpm dev.\n9. git init -b main.",
+		"d": 1,
+		"t": "test ! -e playwright.config.ts && test ! -e src/routes/page.svelte.e2e.ts && test ! -d src/lib/vitest-examples && grep -q '\"name\": \"tint\"' package.json && grep -q '\"name\": \"tint\"' wrangler.jsonc && grep -q '\"build\": \"vite build\"' package.json && ! grep -q playwright package.json tsconfig.json && grep -q 'packages:' pnpm-workspace.yaml && test -f worker-configuration.d.ts && grep -q '\"checkJs\": false' tsconfig.json && test -d .git && pnpm check && pnpm lint && pnpm build && pnpm check"
+	},
+	"core": {
+		"s": "the swap engine: the pool data, then the function that reads it",
+		"d": 0,
+		"c": {
+			"pools_file": {
+				"s": "src/lib/pools.txt holds every synonym pool. format, exact:\n1. one pool per line, entries joined by \", \". entries are lowercase letters and single spaces only, phrases up to 4 words. no blank lines, no comments.\n2. an entry starting with - is swap-out-only: it gets replaced and is never inserted. the unmarked entries of a line must fit wherever any other one of them fits: same part of speech, same inflection (big/large and bigger/larger are separate lines), same strength. a line may hold a single unmarked entry plus marked ones, e.g. dig, -delve.\n3. each entry appears once in the whole file.\n4. at least 250 lines, at least 40 of them with marked ai-tell entries. these marked entries are required: delve, delves, delving, tapestry, testament, pivotal, crucial, robust, seamless, leverage, utilize, foster, showcase, underscore, meticulous, realm, multifaceted, moreover, furthermore, additionally.\n5. skip words whose sense flips with context (fast, light, right, kind, well, mean, fine, bank, lead, close, present), hyphenated words, contractions, and a/an.",
+				"d": 0,
+				"t": "node -e \"const f=require('fs').readFileSync('src/lib/pools.txt','utf8').trim();const l=f.split('\\n');const e=l.flatMap(x=>x.split(', '));const w=e.map(x=>x.replace(/^-/,''));const need='delve delves delving tapestry testament pivotal crucial robust seamless leverage utilize foster showcase underscore meticulous realm multifaceted moreover furthermore additionally'.split(' ');const bad=[l.length<250&&'under 250 lines',l.filter(x=>x.split(', ').some(y=>y[0]=='-')).length<40&&'under 40 ai lines',l.some(x=>x.split(', ').length<2)&&'line with one entry',l.some(x=>x.split(', ').every(y=>y[0]=='-'))&&'line with no unmarked entry',new Set(w).size!=w.length&&'duplicate entry',w.some(x=>!/^[a-z]+( [a-z]+){0,3}$/.test(x))&&'bad characters',need.filter(x=>!e.includes('-'+x)).join(' ')].filter(Boolean);if(bad.length){console.error(bad);process.exit(1)}\""
+			},
+			"swap_module": {
+				"s": "src/lib/swap.ts exports swap(text: string): string; src/lib/swap.spec.ts tests it.\n1. import pools from './pools.txt?raw'. at module load, build one Map from every entry (leading - stripped) to the unmarked entries of its line.\n2. match with one RegExp, flags gi, all entries sorted longest first, this source exactly: (?<![\\w'’-])(?:(an?)(\\s+))?(ENTRIES)(?![\\w'’-]) where ENTRIES is the entries joined by |. entries hold only a-z and spaces, so no escaping. the lookarounds leave hyphenated words and possessives alone; the optional group catches a/an.\n3. per match: candidates are the entry's unmarked entries minus the entry itself. none → return the match unchanged. else pick one with Math.random.\n4. case: an all-caps source longer than one letter → upper; a capitalized source → capitalize the pick; else as stored.\n5. when a/an was caught, write an before a pick starting with a vowel letter, else a; keep the article's case and the original whitespace.\n6. tests, on real entries from pools.txt: a pool word becomes another member of its pool; marked entries never appear in output over 200 runs; text with no pool words comes back identical; Capitalized and CAPS sources keep their case; a/an follows the pick; a pool word inside a hyphenated compound is untouched.",
+				"d": 0,
+				"v": "test -f src/lib/pools.txt",
+				"t": "test -f src/lib/swap.spec.ts && grep -q 'pools.txt?raw' src/lib/swap.ts && pnpm test && pnpm check && pnpm lint"
+			}
+		}
+	},
+	"page": {
+		"s": "src/routes/+page.svelte becomes the whole app; the scaffold welcome text goes.\n1. a full-height textarea bound to one $state string: centered column max-w-2xl, no border, no focus ring, text-lg, placeholder 'paste text', aria-label 'text'.\n2. one button, label 'swap', fixed bottom-right, black pill with white text, disabled while the text is empty. its onclick sets the text to swap(text) from #lib/swap, in place, so every press re-rolls.\n3. <svelte:head><title>tint</title></svelte:head>.\n4. leave src/routes/+layout.svelte and the favicon alone. no copy button, no counter, no dark mode, no second textarea.\n5. look at it: pnpm dev (only if no dev server is running), open it with ab-1440fl, paste a paragraph with pool words, press swap, confirm the words change, and check it at 390px wide.",
+		"d": 0,
+		"v": "grep -qE 'export (const|function) swap' src/lib/swap.ts",
+		"t": "! grep -q 'Welcome to SvelteKit' src/routes/+page.svelte && grep -q '<title>tint</title>' src/routes/+page.svelte && grep -q '#lib/swap' src/routes/+page.svelte && pnpm check && pnpm lint && pnpm test && pnpm build && grep -rq 'paste text' .svelte-kit/output/client"
+	},
+	"ship": {
+		"s": "live at https://tint.apexlinks.workers.dev, deployed by Workers Builds on every push to main",
+		"d": 0,
+		"c": {
+			"github_repo": {
+				"s": "a private GitHub repo 144126/tint holds main.\n1. gh repo create 144126/tint --private --source . --remote origin --push\n2. from here on, push after every commit.",
+				"d": 0,
+				"v": "git rev-parse HEAD >/dev/null && test -z \"$(git remote)\"",
+				"t": "gh repo view 144126/tint --json visibility -q .visibility | grep -q PRIVATE && test \"$(git rev-parse HEAD)\" = \"$(git ls-remote origin refs/heads/main | cut -f1)\""
+			},
+			"worker_builds": {
+				"s": "a Cloudflare Worker named tint exists and Workers Builds watches main. the ids below are copied from the working ed worker.\n1. create the worker: curl -s -X POST -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H 'Content-Type: application/json' https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers -d '{\"name\":\"tint\",\"subdomain\":{\"enabled\":true}}'. its result.id is the script tag.\n2. connect builds: cf builds workers create --script-tag <tag> --git-repository-provider-type github --git-repository-provider-account-id 60928392 --git-repository-provider-account-name 144126 --git-repository-repo-id $(gh api repos/144126/tint -q .id) --git-repository-repo-name tint --git-repository-branch main --production-settings-build-command 'pnpm run build' --production-settings-deploy-command 'pnpm exec wrangler deploy' --production-settings-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414 --previews-enabled false --previews-base-config-build-command '' --previews-base-config-deploy-command 'pnpm exec wrangler versions upload' --previews-base-config-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414\n3. plan tint --note 'worker tag <tag>'",
+				"d": 0,
+				"v": "gh repo view 144126/tint >/dev/null",
+				"t": "cf builds workers get \"$(curl -s -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers/tint | jq -r .result.id)\" | grep -q '\"repo_name\": \"tint\"'"
+			},
+			"deploy_live": {
+				"s": "the first Workers Build succeeds and the page is live.\n1. the push after the worker_builds mark starts the first build. if cf builds list --external-script-id <tag> (tag in the notes) shows none, push an empty commit: chore(deploy_live): trigger first build.\n2. wait on it with a Monitor until-loop, not sleep; a build takes about 2 minutes.\n3. a failed build: read its log (find the command with cf cli search), fix the cause in the repo, commit, push. the usual causes are pnpm-workspace.yaml and a build script that runs wrangler types --check.\n4. open https://tint.apexlinks.workers.dev with ab-1440fl, press swap on sample text, and confirm it works.",
+				"d": 0,
+				"v": "curl -sf -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers/tint >/dev/null",
+				"t": "curl -sf https://tint.apexlinks.workers.dev/ | grep -q '<title>tint</title>'"
+			}
+		}
+	}
+}

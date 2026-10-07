@@ -30,7 +30,7 @@
 	},
 	"ship": {
 		"s": "live at https://tint.apexlinks.workers.dev, deployed by Workers Builds on every push to main",
-		"d": 0,
+		"d": 1,
 		"c": {
 			"github_repo": {
 				"s": "a public GitHub repo 144126/tint holds main.\n1. origin already points at 144126/tint. if the repo is private: gh repo edit 144126/tint --visibility public --accept-visibility-change-consequences.\n2. git push -u origin main.\n3. from here on, push after every commit.",
@@ -46,7 +46,7 @@
 			},
 			"deploy_live": {
 				"s": "the first Workers Build succeeds and the page is live.\n1. the push after the worker_builds mark starts the first build. if cf builds list --external-script-id <tag> (tag in the notes) shows none, push an empty commit: chore(deploy_live): trigger first build.\n2. wait on it with a Monitor until-loop, not sleep; a build takes about 2 minutes.\n3. a failed build: read its log (find the command with cf cli search), fix the cause in the repo, commit, push. the usual causes are pnpm-workspace.yaml and a build script that runs wrangler types --check.\n4. open https://tint.apexlinks.workers.dev with ab-1440fl, press swap on sample text, and confirm it works.",
-				"d": 0,
+				"d": 1,
 				"v": "cf workers get tint | grep -q ddfe810fa68a4d6893274d7c9ad6adfb",
 				"t": "curl -sf https://tint.apexlinks.workers.dev/ | grep -q '<title>tint</title>'"
 			}

@@ -40,14 +40,14 @@
 			},
 			"worker_builds": {
 				"s": "a Cloudflare Worker named tint exists and Workers Builds watches main. the ids below are copied from the working ed worker.\n1. create the worker: curl -s -X POST -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H 'Content-Type: application/json' https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers -d '{\"name\":\"tint\",\"subdomain\":{\"enabled\":true}}'. its result.id is the script tag.\n2. connect builds: cf builds workers create --script-tag <tag> --git-repository-provider-type github --git-repository-provider-account-id 60928392 --git-repository-provider-account-name 144126 --git-repository-repo-id $(gh api repos/144126/tint -q .id) --git-repository-repo-name tint --git-repository-branch main --production-settings-build-command 'pnpm run build' --production-settings-deploy-command 'pnpm exec wrangler deploy' --production-settings-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414 --previews-enabled false --previews-base-config-build-command '' --previews-base-config-deploy-command 'pnpm exec wrangler versions upload' --previews-base-config-build-token-uuid e5e56f11-815c-4555-8f48-ca4fa39c5414\n3. plan tint --note 'worker tag <tag>'",
-				"d": 0,
+				"d": 1,
 				"v": "gh repo view 144126/tint >/dev/null",
-				"t": "cf builds workers get \"$(curl -s -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers/tint | jq -r .result.id)\" | grep -q '\"repo_name\": \"tint\"'"
+				"t": "cf workers get tint | grep -q ddfe810fa68a4d6893274d7c9ad6adfb && cf builds workers get ddfe810fa68a4d6893274d7c9ad6adfb | grep -q '\"repo_name\": \"tint\"'"
 			},
 			"deploy_live": {
 				"s": "the first Workers Build succeeds and the page is live.\n1. the push after the worker_builds mark starts the first build. if cf builds list --external-script-id <tag> (tag in the notes) shows none, push an empty commit: chore(deploy_live): trigger first build.\n2. wait on it with a Monitor until-loop, not sleep; a build takes about 2 minutes.\n3. a failed build: read its log (find the command with cf cli search), fix the cause in the repo, commit, push. the usual causes are pnpm-workspace.yaml and a build script that runs wrangler types --check.\n4. open https://tint.apexlinks.workers.dev with ab-1440fl, press swap on sample text, and confirm it works.",
 				"d": 0,
-				"v": "curl -sf -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" https://api.cloudflare.com/client/v4/accounts/9bdf8703c380fa82142864bf5d99a2d7/workers/workers/tint >/dev/null",
+				"v": "cf workers get tint | grep -q ddfe810fa68a4d6893274d7c9ad6adfb",
 				"t": "curl -sf https://tint.apexlinks.workers.dev/ | grep -q '<title>tint</title>'"
 			}
 		}

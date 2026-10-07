@@ -1,1 +1,2 @@
 - 2026-10-07 #lib/swap needs #lib/swap.js for svelte-check
+- 2026-10-07 worker tag ddfe810fa68a4d6893274d7c9ad6adfb
